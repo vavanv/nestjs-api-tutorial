@@ -64,9 +64,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-[Vladimir Vorobiev](vladimir.vorobiev@gmail.com)
-
-- Website - [https://vladv.netlify.app/](https://vladv.netlify.app/)
+[Vladimir Vorobiev](https://vladv.netlify.app/)
 
 ## License
 
