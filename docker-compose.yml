@@ -20,5 +20,15 @@ services:
       POSTGRES_DB: nest
     networks:
       - freecodecamp
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: vavan.v@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 19VladimiR62!@
+      PGADMIN_LISTEN_PORT: 80
+    # depends_on:
+    #   - dev-db
 networks:
   freecodecamp:
