@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prisma:dev:deploy": "npx prisma migrate deploy",
-    "timeout": "node -e \"require('node:timers/promises').setTimeout(10_000)\"",
+    "timeout": "node -e \"require('node:timers/promises').setTimeout(5_000)\"",
     "db:dev:rm": "docker compose rm dev-db -s -f -v",
     "db:dev:up": "docker compose up dev-db -d",
     "db:dev:restart": "yarn db:dev:rm && yarn db:dev:up && yarn timeout && yarn prisma:dev:deploy",

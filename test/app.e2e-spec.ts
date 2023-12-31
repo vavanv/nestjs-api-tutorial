@@ -5,6 +5,8 @@ import * as pactum from 'pactum';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from 'src/auth/dto';
+import { EditUserDto } from 'src/user/dto';
+import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -117,24 +119,129 @@ describe('App e2e', () => {
       });
     });
     describe('Edit User', () => {
-      it.todo('Should Edit User');
+      it('Should Edit User', () => {
+        const dto: EditUserDto = {
+          email: 'vvv@gmail.com',
+          firstName: 'Vlad',
+        };
+        return pactum
+          .spec()
+          .patch('/users')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.firstName)
+          .expectBodyContains(dto.email);
+      });
     });
   });
   describe('Bookmark', () => {
+    describe('Get Empty Bookmarks', () => {
+      it('Should Get Bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(200)
+          .expectBody([]);
+      });
+    });
     describe('Create Bookmark', () => {
-      it.todo('Should Create Bookmark');
+      const dto: CreateBookmarkDto = {
+        title: 'Google',
+        link: 'https://google.com',
+      };
+      it('Should Create Bookmark', () => {
+        return pactum
+          .spec()
+          .post('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .withBody(dto)
+          .expectStatus(201)
+          .expectBodyContains(dto.title)
+          .expectBodyContains(dto.link)
+          .stores('bookmarkId', 'id');
+      });
     });
     describe('Get Bookmarks', () => {
-      it.todo('Should Get Bookmarks');
+      it('Should Get Bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(200)
+          .expectJsonLength(1);
+      });
     });
     describe('Get Bookmark By Id', () => {
-      it.todo('Should Get Bookmark By Id');
+      it('Get Bookmarks By Id', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks/{id}')
+          .withPathParams({
+            id: '$S{bookmarkId}',
+          })
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(200)
+          .expectBodyContains('$S{bookmarkId}');
+        // .inspect();
+      });
     });
     describe('Edit Bookmark By Id', () => {
-      it.todo('Should Edit Bookmark By Id');
+      const dto: EditBookmarkDto = {
+        title: 'Title Google',
+        description: 'Description Google',
+      };
+      it('Edit Bookmarks By Id', () => {
+        return pactum
+          .spec()
+          .patch('/bookmarks/{id}')
+          .withPathParams({
+            id: '$S{bookmarkId}',
+          })
+          .withBody(dto)
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(200)
+          .expectBodyContains(dto.title)
+          .expectBodyContains(dto.description);
+      });
     });
     describe('Delete Bookmark By Id', () => {
-      it.todo('Should Delete Bookmark By Id');
+      it('Delete Bookmarks By Id', () => {
+        return pactum
+          .spec()
+          .delete('/bookmarks/{id}')
+          .withPathParams({
+            id: '$S{bookmarkId}',
+          })
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(204);
+      });
+
+      it('Should Get Bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(200)
+          .expectJsonLength(0);
+      });
     });
   });
 });
