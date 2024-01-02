@@ -3,27 +3,23 @@ services:
   dev-db:
     image: postgres:13
     ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+  test-db:
+    image: postgres:13
+    ports:
       - 5434:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
-    networks:
-      - freecodecamp
-  test-db:
-    image: postgres:13
-    ports:
-      - 5435:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
-    networks:
-      - freecodecamp
+      POSTGRES_DB: nest_test
   pgadmin:
     image: dpage/pgadmin4
     ports:
-      - 8080:80
+      - 5050:80
     environment:
       PGADMIN_DEFAULT_EMAIL: vavan.v@gmail.com
       PGADMIN_DEFAULT_PASSWORD: 19VladimiR62!@
